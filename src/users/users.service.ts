@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 
 import { User } from './schemas/users.schema';
-import { InputCreateUserDto } from './dto/users.dto';
+import { InputCreateUserDto, InputUpdateUserDto } from './dto/users.dto';
 
 @Injectable()
 export class UsersService {
@@ -32,5 +32,16 @@ export class UsersService {
   async createUser(payload: InputCreateUserDto): Promise<void> {
     if (!(await this.emailInUse(payload.email))) await this.userModel.create(payload);
     else throw new BadRequestException('E-mail already in use.');
+  }
+
+  async updateUser(payload: InputUpdateUserDto): Promise<void> {
+    const userDocument = await this.userModel.findOne({ email: payload.email });
+    if (userDocument) {
+      const fields = Object.keys(userDocument.schema.obj);
+      fields.map((field) => {
+        if (field in payload && field != 'email') userDocument[field] = payload[field];
+      });
+      await this.userModel.updateOne({ email: payload.email }, userDocument);
+    } else throw new NotFoundException('User not found in database.');
   }
 }
