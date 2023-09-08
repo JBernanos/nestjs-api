@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Body, Put } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Put, Delete } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './schemas/users.schema';
 import { InputCreateUserDto, InputUpdateUserDto } from './dto/users.dto';
@@ -17,7 +17,7 @@ export class UsersController {
     return this.usersService.getUserByEmail(userEmail);
   }
 
-  @Post('')
+  @Post()
   async createUser(@Body() payload: InputCreateUserDto): Promise<void> {
     return this.usersService.createUser(payload);
   }
@@ -25,5 +25,10 @@ export class UsersController {
   @Put()
   async updateUser(@Body() payload: InputUpdateUserDto): Promise<void> {
     return this.usersService.updateUser(payload);
+  }
+
+  @Delete('/email/:email')
+  async deleteUser(@Param('email') userEmail: string): Promise<void> {
+    return this.usersService.deleteUser(userEmail);
   }
 }

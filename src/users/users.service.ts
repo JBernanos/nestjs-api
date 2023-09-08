@@ -44,4 +44,9 @@ export class UsersService {
       await this.userModel.updateOne({ email: payload.email }, userDocument);
     } else throw new NotFoundException('User not found in database.');
   }
+
+  async deleteUser(userEmail: string): Promise<void> {
+    const { deletedCount } = await this.userModel.deleteOne({ email: userEmail });
+    if (deletedCount == 0) throw new BadRequestException('User not found in database.');
+  }
 }
