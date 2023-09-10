@@ -12,7 +12,7 @@ export class ProductsService {
     private productModel: mongoose.Model<Product>,
   ) {}
 
-  private async idInUse(productId): Promise<boolean> {
+  private async idInUse(productId: string): Promise<boolean> {
     const document = await this.productModel.findOne({ id: productId });
     return document ? true : false;
   }
