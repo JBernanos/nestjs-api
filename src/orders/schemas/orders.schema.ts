@@ -6,13 +6,13 @@ export class Order {
   id: string;
 
   @Prop()
-  user_id: string;
+  user_email: string;
 
   @Prop()
   products: string[];
 
   @Prop()
-  price: number;
+  total_price: number;
 
   @Prop()
   discount: number;

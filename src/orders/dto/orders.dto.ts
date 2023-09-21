@@ -2,14 +2,14 @@ import { IsString, IsNumber, IsArray } from 'class-validator';
 
 export class InputCreateOrderDto {
   @IsString()
-  user_id: string;
+  user_email: string;
 
   @IsArray()
   @IsString({ each: true })
   products: string[];
 
   @IsNumber()
-  price: number;
+  total_price: number;
 
   @IsNumber()
   discount: number;

@@ -12,7 +12,7 @@ export class UsersService {
     private userModel: mongoose.Model<User>,
   ) {}
 
-  private async emailInUse(email: string): Promise<boolean> {
+  async emailInUse(email: string): Promise<boolean> {
     const document = await this.userModel.findOne({ email: email });
     return document ? true : false;
   }
